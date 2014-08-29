@@ -9,6 +9,9 @@ class notepad:
         self.ID_SAVE = 3
         self.ID_SAVEAS = 4
         self.ID_QUIT = 5
+
+        self.ID_FONT = 6
+        self.ID_BACDGROUND = 7
         
         print "class init !"
         
@@ -37,6 +40,8 @@ class notepad:
         quitItem = fileMenu.Append(self.ID_QUIT,'退出'.decode('UTF-8'))
 
         settingingMenu = wx.Menu()
+        fontItem = settingingMenu.Append(self.ID_FONT,'字体...'.decode('UTF-8'))
+        fontItem = settingingMenu.Append(self.ID_BACDGROUND ,'背景色'.decode('UTF-8'))
 
         copyrightMenu = wx.Menu()
         
