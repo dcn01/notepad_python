@@ -41,8 +41,10 @@ class notepad:
 
         settingingMenu = wx.Menu()
         fontItem = settingingMenu.Append(self.ID_FONT,'字体...'.decode('UTF-8'))
-        fontItem = settingingMenu.Append(self.ID_BACDGROUND ,'背景色'.decode('UTF-8'))
-
+        backgroundMenu = wx.Menu()        
+        settingingMenu.AppendMenu(wx.ID_ANY ,'背景色'.decode('UTF-8'),backgroundMenu)
+        backgroundMenu.
+        
         copyrightMenu = wx.Menu()
         
         self.menubar.Append(fileMenu,'文件'.decode('UTF-8'))
