@@ -41,9 +41,17 @@ class notepad:
 
         settingingMenu = wx.Menu()
         fontItem = settingingMenu.Append(self.ID_FONT,'字体...'.decode('UTF-8'))
+
         backgroundMenu = wx.Menu()        
         settingingMenu.AppendMenu(wx.ID_ANY ,'背景色'.decode('UTF-8'),backgroundMenu)
-        backgroundMenu.
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'默认'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'黑色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'蓝色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'粉红色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'绿色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'灰色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'橙色'.decode('UTF-8'))
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'黄色'.decode('UTF-8'))
         
         copyrightMenu = wx.Menu()
         
