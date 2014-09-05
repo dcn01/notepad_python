@@ -4,19 +4,21 @@ import wx
 
 class notepad:
     def __init__(self):
+        print "do : class init !"
         self.ID_NEW_FILE = 1
         self.ID_OPEN = 2
         self.ID_SAVE = 3
         self.ID_SAVEAS = 4
         self.ID_QUIT = 5
-
         self.ID_FONT = 6
         self.ID_BACDGROUND = 7
+        self.notepadText = ''
         
-        print "class init !"
+        print "finish : class init !"
         
     #创建一个记事本
     def createNotepad(self):
+        print "do : createNotepad"
         self.frame = wx.Frame(None,-1,'记事本'.decode('UTF-8'))
         self.frame.Center()
 
@@ -24,12 +26,17 @@ class notepad:
         self.notepadMenu()
                 
         self.frame.Show()
+        print "finish : createNotepad"
+        
     #添加文本框
     def notepadContent(self):
+        print "do : notepadContent"
         self.textArea = wx.TextCtrl(self.frame,0,"记事本".decode('UTF-8'),style=wx.TE_MULTILINE)
-
+        print "finish : notepadContent"
+        
     #添加菜单
     def notepadMenu(self):
+        print "do : notepadMenu"
         self.menubar = wx.MenuBar()
         fileMenu = wx.Menu()
         
@@ -62,6 +69,13 @@ class notepad:
         self.frame.Bind(wx.EVT_MENU, self.openFileChooser,openItem)
         self.frame.SetMenuBar(self.menubar)
 
+        print "finish : notepadMenu"
+
+        #菜单绑定事件
+        self.frame.Bind(wx.EVT_MENU,self.menuQuit,quitItem)
+        self.frame.Bind(wx.EVT_MENU,self.menuOpenfile,openItem)
+        self.frame.Bind(wx.EVT_MENU,self.menuSaveAs,savessItem)
+
     #选择文件
     def openFileChooser(self,arg):
         print "hello world !"
@@ -72,6 +86,43 @@ class notepad:
     def notepadShow(self):
         app = wx.App()
         self.createNotepad()
-        app.MainLoop()
+        app.MainLoop()      
+
+    #（菜单）退出方法
+    def menuQuit(self,arg):
+        self.frame.Close()
+
+    #(菜单)打开文件方法
+    def menuOpenfile(self,arg):
+        print "do : menuOpenfile"
+        self.openDialog =  wx.FileDialog(self.frame,'打开'.decode('UTF-8'),'.')
+        self.openDialog.ShowModal()
+        filePath = self.openDialog.GetPath()
+        
+        #print filePath
+        self.textArea.LoadFile(filePath)
+        #self.notepadText = open(filePath,'r').readlines() 
+        #print self.notepadText
+        print "finish : menuOpenfile"
+
+    #(菜单)打开文件方法
+    def menuSaveAs(self,arg):
+        print "do : menuSaveAs"
+        self.saveDialog =  wx.FileDialog(self.frame,'保存'.decode('UTF-8'),'.',style=wx.FD_SAVE)
+        self.saveDialog.ShowModal()
+
+        filePath = self.saveDialog.GetPath()
+        self.notepadText = self.textArea.GetLineText(self.textArea.GetNumberOfLines())
+        print self.notepadText
+     
+        __file = open(filePath, "w")
+        __file.write(str(self.notepadText))
+        __file.close()
+        
+        print "finish : menuSaveAs"
+
+    def menuSave(self,arg):
+        print "do : menuSave"
+        
          
 notepad().notepadShow()
