@@ -13,6 +13,8 @@ class notepad:
         self.ID_FONT = 6
         self.ID_BACDGROUND = 7
         self.notepadText = ''
+        self.filePath = ''
+        self.file = None
         
         print "finish : class init !"
         
@@ -38,17 +40,14 @@ class notepad:
     def notepadMenu(self):
         print "do : notepadMenu"
         self.menubar = wx.MenuBar()
-        fileMenu = wx.Menu()
-        
+        fileMenu = wx.Menu()        
         newfileItem = fileMenu.Append(self.ID_NEW_FILE,'新建...'.decode('UTF-8'))
         openItem = fileMenu.Append(self.ID_OPEN,'打开...'.decode('UTF-8'))
         saveItem = fileMenu.Append(self.ID_SAVE,'保存'.decode('UTF-8'))
         savessItem = fileMenu.Append(self.ID_SAVEAS,'另存为...'.decode('UTF-8'))
         quitItem = fileMenu.Append(self.ID_QUIT,'退出'.decode('UTF-8'))
-
         settingingMenu = wx.Menu()
         fontItem = settingingMenu.Append(self.ID_FONT,'字体...'.decode('UTF-8'))
-
         backgroundMenu = wx.Menu()        
         settingingMenu.AppendMenu(wx.ID_ANY ,'背景色'.decode('UTF-8'),backgroundMenu)
         backgroundMenu.AppendRadioItem(wx.ID_ANY,'默认'.decode('UTF-8'))
@@ -58,23 +57,20 @@ class notepad:
         backgroundMenu.AppendRadioItem(wx.ID_ANY,'绿色'.decode('UTF-8'))
         backgroundMenu.AppendRadioItem(wx.ID_ANY,'灰色'.decode('UTF-8'))
         backgroundMenu.AppendRadioItem(wx.ID_ANY,'橙色'.decode('UTF-8'))
-        backgroundMenu.AppendRadioItem(wx.ID_ANY,'黄色'.decode('UTF-8'))
-        
-        copyrightMenu = wx.Menu()
-        
+        backgroundMenu.AppendRadioItem(wx.ID_ANY,'黄色'.decode('UTF-8'))       
+        copyrightMenu = wx.Menu()        
         self.menubar.Append(fileMenu,'文件'.decode('UTF-8'))
         self.menubar.Append(settingingMenu,'设置'.decode('UTF-8'))
         self.menubar.Append(copyrightMenu,'版权'.decode('UTF-8'))
-
         self.frame.Bind(wx.EVT_MENU, self.openFileChooser,openItem)
         self.frame.SetMenuBar(self.menubar)
-
         print "finish : notepadMenu"
 
         #菜单绑定事件
         self.frame.Bind(wx.EVT_MENU,self.menuQuit,quitItem)
         self.frame.Bind(wx.EVT_MENU,self.menuOpenfile,openItem)
         self.frame.Bind(wx.EVT_MENU,self.menuSaveAs,savessItem)
+        self.frame.Bind(wx.EVT_MENU,self.menuSave,saveItem)
 
     #选择文件
     def openFileChooser(self,arg):
@@ -97,10 +93,10 @@ class notepad:
         print "do : menuOpenfile"
         self.openDialog =  wx.FileDialog(self.frame,'打开'.decode('UTF-8'),'.')
         self.openDialog.ShowModal()
-        filePath = self.openDialog.GetPath()
-        
+        filePath = self.openDialog.GetPath()        
         #print filePath
         self.textArea.LoadFile(filePath)
+        self.filePath = filePath
         #self.notepadText = open(filePath,'r').readlines() 
         #print self.notepadText
         print "finish : menuOpenfile"
@@ -110,19 +106,20 @@ class notepad:
         print "do : menuSaveAs"
         self.saveDialog =  wx.FileDialog(self.frame,'保存'.decode('UTF-8'),'.',style=wx.FD_SAVE)
         self.saveDialog.ShowModal()
-
         filePath = self.saveDialog.GetPath()
-        self.notepadText = self.textArea.GetLineText(self.textArea.GetNumberOfLines())
-        print self.notepadText
-     
+        self.filePath = filePath
+        self.notepadText = self.textArea.GetValue()
         __file = open(filePath, "w")
-        __file.write(str(self.notepadText))
-        __file.close()
-        
+        __file.write(self.notepadText.encode('UTF-8'))
+        __file.close()        
         print "finish : menuSaveAs"
 
     def menuSave(self,arg):
         print "do : menuSave"
+        self.file = open(self.filePath, "w")
+        self.file.write(self.textArea.GetValue().encode('UTF-8'))
+        self.file.close()
+        print "finish : menuSave"
         
          
 notepad().notepadShow()
